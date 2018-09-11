@@ -1,0 +1,28 @@
+{
+    "name": "ElseZhang\/weather",
+    "description": "A weather SDK",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ElseZhang",
+            "email": "mzhang173@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "phpunit/phpunit": "^7.3",
+        "mockery/mockery": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "ElseZhang\\Weather\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ElseZhang\\Weather\\ServiceProvider"
+            ]
+        }
+    }
+}
