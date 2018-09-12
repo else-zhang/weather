@@ -42,7 +42,7 @@ class WeatherTest extends TestCase
         $this->expectExceptionMessage('Invalid response format: array'); 
 
         // 因为支持的格式为 xml/json，所以传入 array 会抛出异常
-        $w->getWeather('深圳', 'base', 'array'); 
+        $w->getWeather('深圳', 'live', 'array'); 
 
         // 如果没有抛出异常，就会运行到这行，标记当前测试没成功
         $this->fail('Faild to assert getWeather throw exception with invalid argument.');   
@@ -58,7 +58,7 @@ class WeatherTest extends TestCase
                 'key' => 'mock-key',
                 'city' => '深圳',
                 'output' => 'json',
-                'extensions' => 'base',
+                'extensions' => 'live',
             ],
         ])->andReturn($response);
 
@@ -74,7 +74,7 @@ class WeatherTest extends TestCase
             'query' => [
                 'key' => 'mock-key',
                 'city' => '深圳',
-                'extensions' => 'all',
+                'extensions' => 'forecast',
                 'output' => 'xml',
             ],
         ])->andReturn($response);
@@ -82,7 +82,7 @@ class WeatherTest extends TestCase
         $w = \Mockery::mock(Weather::class, ['mock-key'])->makePartial();
         $w->allows()->getHttpClient()->andReturn($client);
 
-        $this->assertSame('<hello>content</hello>', $w->getWeather('深圳', 'all', 'xml'));
+        $this->assertSame('<hello>content</hello>', $w->getWeather('深圳', 'forecast', 'xml'));
     }
 
     public function testGetHttpClient()
@@ -122,5 +122,25 @@ class WeatherTest extends TestCase
         $this->expectExceptionMessage('request timeout');
 
         $w->getWeather('深圳');
+    }
+
+    public function testGetLiveWeather()
+    {
+        // 将 getWeather 接口模拟为返回固定内容，以测试参数传递是否正确
+        $w = \Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $w->expects()->getWeather('深圳', 'live', 'json')->andReturn(['success' => true]);
+
+        // 断言正确传参并返回
+        $this->assertSame(['success' => true], $w->getLiveWeather('深圳'));
+    }
+
+    public function testGetForecastsWeather()
+    {
+        // 将 getWeather 接口模拟为返回固定内容，以测试参数传递是否正确
+        $w = \Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $w->expects()->getWeather('深圳', 'forecast', 'json')->andReturn(['success' => true]);
+
+        // 断言正确传参并返回
+        $this->assertSame(['success' => true], $w->getForecastsWeather('深圳'));
     }
 }
