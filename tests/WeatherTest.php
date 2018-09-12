@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the elsezhang/weather.
+ *
+ * (c) ElseZhang <mzhang173@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ElseZhang\Weather\Tests;
 
 use GuzzleHttp\Client;
@@ -13,7 +22,6 @@ use PHPUnit\Framework\TestCase;
 
 class WeatherTest extends TestCase
 {
-
     // 检查 $type 参数
     public function testGetWeatherWithInvalidType()
     {
@@ -36,16 +44,16 @@ class WeatherTest extends TestCase
         $w = new Weather('mock-key');
 
         // 断言会抛出此异常类
-        $this->expectException(InvalidArgumentException::class);  
+        $this->expectException(InvalidArgumentException::class);
 
         // 断言异常消息为 'Invalid response format: array'
-        $this->expectExceptionMessage('Invalid response format: array'); 
+        $this->expectExceptionMessage('Invalid response format: array');
 
         // 因为支持的格式为 xml/json，所以传入 array 会抛出异常
-        $w->getWeather('深圳', 'live', 'array'); 
+        $w->getWeather('深圳', 'live', 'array');
 
         // 如果没有抛出异常，就会运行到这行，标记当前测试没成功
-        $this->fail('Faild to assert getWeather throw exception with invalid argument.');   
+        $this->fail('Faild to assert getWeather throw exception with invalid argument.');
     }
 
     public function testGetWeather()
