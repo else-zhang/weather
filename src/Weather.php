@@ -2,9 +2,9 @@
 
 namespace ElseZhang\Weather;
 
-use GuzzleHttp\Client;
 use ElseZhang\Weather\Exceptions\HttpException;
 use ElseZhang\Weather\Exceptions\InvalidArgumentException;
+use GuzzleHttp\Client;
 
 class Weather
 {
@@ -29,10 +29,10 @@ class Weather
     public function getWeather($city, $type = 'live', $format = 'json')
     {
         $url = 'https://restapi.amap.com/v3/weather/weatherInfo';
-	$types = [
-	    'live' => 'base',
+        $types = [
+        'live'         => 'base',
             'forecast' => 'all',
-	];
+    ];
 
         if (!\in_array(\strtolower($format), ['xml', 'json'])) {
             throw new InvalidArgumentException('Invalid response format: '.$format);
@@ -43,10 +43,10 @@ class Weather
         }
 
         $query = array_filter([
-            'key' => $this->key,
-            'city' => $city,
-            'output' => \strtolower($format),
-            'extensions' =>  \strtolower($type),
+            'key'        => $this->key,
+            'city'       => $city,
+            'output'     => \strtolower($format),
+            'extensions' => \strtolower($type),
         ]);
 
         try {
