@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the elsezhang/weather.
+ *
+ * (c) ElseZhang <mzhang173@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ElseZhang\Weather;
 
 use GuzzleHttp\Client;
@@ -9,6 +18,7 @@ use ElseZhang\Weather\Exceptions\InvalidArgumentException;
 class Weather
 {
     protected $key;
+
     protected $guzzleOptions = [];
 
     public function __construct($key)
@@ -29,10 +39,10 @@ class Weather
     public function getWeather($city, $type = 'live', $format = 'json')
     {
         $url = 'https://restapi.amap.com/v3/weather/weatherInfo';
-	$types = [
-	    'live' => 'base',
+        $types = [
+        'live' => 'base',
             'forecast' => 'all',
-	];
+    ];
 
         if (!\in_array(\strtolower($format), ['xml', 'json'])) {
             throw new InvalidArgumentException('Invalid response format: '.$format);
@@ -46,7 +56,7 @@ class Weather
             'key' => $this->key,
             'city' => $city,
             'output' => \strtolower($format),
-            'extensions' =>  \strtolower($type),
+            'extensions' => \strtolower($type),
         ]);
 
         try {
